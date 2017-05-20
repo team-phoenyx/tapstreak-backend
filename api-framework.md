@@ -2,8 +2,10 @@
 Schema 1: user
 	Param 1: user_id
 	Param 2: username
-	Param 3: nfc_tag
-	Param 4: qr_code
+	Param 3: pass_hashed
+	Param 4: salt
+	Param 5: nfc_tag
+	Param 6: qr_code
   Subschema: friend
     Param 1: user_id
     Param 2: username
@@ -12,8 +14,8 @@ Schema 1: user
     Param 5: streak_length
 
 *****API FRAMEWORK*****
-@POST("user/{username}/{nfc_tag}/{qr_code}/create")
-Creates a user
+@POST("user/{username}/{pass_hashed}/{salt}/{nfc_tag}/{qr_code}/create")
+Creates a user, returns user_id
 
 @GET("user/{user_id}")
 Gets single user
