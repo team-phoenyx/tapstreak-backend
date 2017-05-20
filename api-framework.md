@@ -14,20 +14,32 @@ Schema 1: user
     Param 5: streak_length
 
 *****API FRAMEWORK*****
-@POST("user/{username}/{pass_hashed}/{salt}/{nfc_tag}/{qr_code}/create")
-Creates a user, returns user_id
+		@GET("user/{user_id}")
+    Gets user (Return empty if user_id doesn't exist)
 
-@GET("user/{user_id}")
-Gets single user
+    @GET("user/{user_id}/friends")
+    Gets friends of a user (Return empty if user_id doesn't exist)
 
-@GET("user/{user_id}/friends")
-Gets friends of user
+    @POST("user/{username}/{password_hashed}/{salt}/{nfc_tag}/{qr_code}/create")
+    Makes a user
 
-@POST("user/{user_id}/{friend_id}/add-friend")
-Adds a friend
+    @GET("user/{username}/get-salt")
+    Gets a salt of user (Return -1 if username doesn't exist)
 
-@POST("user/{user_id}/{friend_id}/refresh-streak")
-Refreshes a streak
+    @GET("user/{username}/{password_hashed}")
+    Gets user_id and thus logs in a user (Return -1 if username doesn't exist or password_hashed is wrong)
 
-@POST("user/{user_id}/{friend_id}/remove-streak")
-Destroys a streak
+    @GET("user/{username}/check-dupe")
+    Tests if username exists already (1 if already exists, 0 if it doesn't)
+
+    @GET("user/{user_id}/{nfc_tag}/add-friend")
+    Adds a friend via nfc_tag (Return user_id of the friend, 0 if nfc_code doesn't exist)
+
+		@GET("user/{user_id}/{qr_code}/add-friend")
+    Adds a friend via qr_code (Return user_id of the friend, 0 if qr_code doesn't exist)
+
+    @POST("user/{user_id}/{friend_id}/refresh-streak")
+    Renews a streak
+
+    @POST("user/{user_id}/{friend_id}/remove-streak")
+    Destroys a streak
