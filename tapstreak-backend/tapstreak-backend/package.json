@@ -1,0 +1,27 @@
+{
+  "name": "tapstreakapi",
+  "version": "1.0.0",
+  "description": "RESTful node.JS API for Tapstreak",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://avigloz@bitbucket.org/phoenyxllc/tapstreak-backend.git"
+  },
+  "author": "Avi Glozman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/phoenyxllc/tapstreak-backend/issues"
+  },
+  "homepage": "https://bitbucket.org/phoenyxllc/tapstreak-backend/",
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "mongoose": "^4.9.8"
+  }
+}
