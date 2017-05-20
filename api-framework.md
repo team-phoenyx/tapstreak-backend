@@ -12,20 +12,20 @@ Schema 1: users
     Param 5: streak_length
 
 *****API FRAMEWORK*****
-/user/:username-:nfc_tag-:qr_code/ (POST + GET)
-Creates user, generates and returns user_id
+@POST("user/{username}/{nfc_tag}/{qr_code}/create")
+Creates a user
 
-/users/:user_id/friends (GET)
-Returns JSON array of friends
+@GET("user/{user_id}")
+Gets single user
 
-/user/:user_id/user (GET)
-Returns a single user
+@GET("user/{user_id}/friends")
+Gets friends of user
 
-/user/:user_id-:friend_id/add-friend (POST)
-Friends add each other
+@POST("user/{user_id}/{friend_id}/add-friend")
+Adds a friend
 
-/user/:user_id-:friend_id/add-streak (PUT)
-Adds to the streak for a pair of friends
+@POST("user/{user_id}/{friend_id}/refresh-streak")
+Refreshes a streak
 
-/user/:user_id-:friend_id/remove-streak (PUT)
-Streak is destroyed
+@POST("user/{user_id}/{friend_id}/remove-streak")
+Destroyes a streak
