@@ -28,4 +28,4 @@ Adds a friend
 Refreshes a streak
 
 @POST("user/{user_id}/{friend_id}/remove-streak")
-Destroyes a streak
+Destroys a streak
