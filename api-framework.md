@@ -1,10 +1,10 @@
 *****NoSQL DATABASE STRUCTURE*****
-Schema 1: users
+Schema 1: user
 	Param 1: user_id
 	Param 2: username
 	Param 3: nfc_tag
 	Param 4: qr_code
-  Subschema: friends
+  Subschema: friend
     Param 1: user_id
     Param 2: username
     Param 3: nfc_tag
