@@ -4,7 +4,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>tapstreak-backend</Name>
     <RootNamespace>tapstreak-backend</RootNamespace>
-    <NameOfLastUsedPublishProfile>tapstreak-backend - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>tapstreak-backend - Web Deploy (2)</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -29,10 +29,21 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="api\controllers\tapstreakControllers.js" />
+    <Compile Include="api\models\tapstreakModel.js" />
+    <Compile Include="api\routes\tapstreakRoutes.js" />
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="web.config" />
+    <None Include="tapstreak-backend - Web Deploy %282%29.pubxml" />
     <None Include="tapstreak-backend - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="api\" />
+    <Folder Include="api\controllers\" />
+    <Folder Include="api\models\" />
+    <Folder Include="api\routes\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />

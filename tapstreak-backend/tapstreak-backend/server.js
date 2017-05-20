@@ -1,9 +1,9 @@
 'use strict';
 var express = require('express'),
     app = express(),
-    port = process.env.PORT || 3000,
+    port = process.env.PORT || 430,
     mongoose = require('mongoose'),
-    Task = require('./api/models/todoListModel'),
+    Task = require('./api/models/tapstreakModel'),
     bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
