@@ -4,11 +4,9 @@ Schema 1: user
 	Param 2: username
 	Param 3: pass_hashed
 	Param 4: salt
-	Param 5: qr_code
   Subschema: friend
     Param 1: user_id
     Param 2: username
-    Param 3: qr_code
     Param 4: streak_length
 
 *****API FRAMEWORK*****
@@ -19,14 +17,11 @@ Schema 1: user
     Gets friends of a user (Return empty if user_id doesn't exist)
 
     @GET("user/{username}/{password_hashed}/{salt}/create")
-    Makes a user (Return user_id), generate a qr code BUT DON'T RETURN IT!
+    Makes a user (Return user_id)
 
 			{
 				"user_id":"2"
 			}
-
-		@GET("user/{user_id}/get-qr")
-		Gets the QR code from a user (Return -1 if user_id doesn't exist)
 
     @GET("user/{username}/get-salt")
     Gets a salt of user (Return -1 if username doesn't exist)
@@ -47,9 +42,6 @@ Schema 1: user
 
     @GET("user/{user_id}/{user_id}/add-friend")
     Adds a friend via nfc_tag (Return user_id of the friend, 0 if nfc_code doesn't exist)
-
-		@GET("user/{user_id}/{qr_code}/add-friend")
-    Adds a friend via qr_code (Return user_id of the friend, 0 if qr_code doesn't exist)
 
     @POST("user/{user_id}/{friend_id}/refresh-streak")
     Renews a streak
