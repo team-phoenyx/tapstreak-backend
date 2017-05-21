@@ -1,9 +1,9 @@
 'use strict';
 var express = require('express'),
     app = express(),
-    port = process.env.PORT || 430,
+    port = process.env.PORT || 1337,
     mongoose = require('mongoose'),
-    Task = require('./api/models/tapstreakModel'),
+    User = require('./api/models/tapstreakModel'),
     bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
@@ -12,10 +12,10 @@ mongoose.connect('mongodb://phoenyx-tapstreak:154vbqmXwtlRyxFKFCug7QrQGh57LycZdt
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var routes = require('./api/routes/todoListRoutes');
+var routes = require('./api/routes/tapstreakRoutes');
 routes(app);
 
 app.listen(port);
 var tag = 'CODEDAY';
 console.log('tapstreak API running on port' + port);
-console.log('version 0.1.5202017 - VERSION TAG: ' + tag);
+console.log('version 0.2.05202017 - VERSION TAG: ' + tag);

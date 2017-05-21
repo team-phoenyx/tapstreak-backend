@@ -1,6 +1,6 @@
 {
   "name": "tapstreakapi",
-  "version": "1.0.0",
+  "version": "0.2.05202017",
   "description": "RESTful node.JS API for Tapstreak",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,8 @@
     "nodemon": "^1.11.0"
   },
   "dependencies": {
-    "express": "^4.15.2",
+    "body-parser": "1.17.2",
+    "express": "^4.15.3",
     "mongoose": "^4.10.0"
   }
 }
