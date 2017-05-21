@@ -4,14 +4,12 @@ Schema 1: user
 	Param 2: username
 	Param 3: pass_hashed
 	Param 4: salt
-	Param 5: nfc_tag
-	Param 6: qr_code
+	Param 5: qr_code
   Subschema: friend
     Param 1: user_id
     Param 2: username
-    Param 3: nfc_tag
-    Param 4: qr_code
-    Param 5: streak_length
+    Param 3: qr_code
+    Param 4: streak_length
 
 *****API FRAMEWORK*****
 		@GET("user/{user_id}")
@@ -20,7 +18,7 @@ Schema 1: user
     @GET("user/{user_id}/friends")
     Gets friends of a user (Return empty if user_id doesn't exist)
 
-    @POST("user/{username}/{password_hashed}/{salt}/{nfc_tag}/create")
+    @POST("user/{username}/{password_hashed}/{salt}/create")
     Makes a user (Return user_id), generate a qr code BUT DON'T RETURN IT!
 
 		@GET("user/{user_id}/get-qr")
@@ -35,7 +33,7 @@ Schema 1: user
     @GET("user/{username}/check-dupe")
     Tests if username exists already (1 if already exists, 0 if it doesn't)
 
-    @GET("user/{user_id}/{nfc_tag}/add-friend")
+    @GET("user/{user_id}/{user_id}/add-friend")
     Adds a friend via nfc_tag (Return user_id of the friend, 0 if nfc_code doesn't exist)
 
 		@GET("user/{user_id}/{qr_code}/add-friend")
