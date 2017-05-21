@@ -3,39 +3,24 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
+    username: String,
+    pass_hashed: String,
+    salt: String,
+    qr_code: String,
+    streak_length: Number,
+    friends: [{ type: Schema.Types.ObjectId, ref: Friend }]
 
-
-    friends: [{ type: Schema.Types.ObjectId, ref: Friend }],
-    became_friends: {
-        type: Date,
-        default: Date.now
-    },
-    // change:
-    status: {
-        type: [{
-            type: String,
-            enum: ['pending', 'ongoing', 'completed']
-        }],
-        default: ['pending']
-    }
+    //became_friends: {
+    //    type: Date,
+    //    default: Date.now
+    //}
 });
 
 var FriendSchema = new Schema({
-    name: {
-        type: String,
-        Required: 'Kindly enter the name of the task'
-    },
-    Created_date: {
-        type: Date,
-        default: Date.now
-    },
-    status: {
-        type: [{
-            type: String,
-            enum: ['pending', 'ongoing', 'completed']
-        }],
-        default: ['pending']
-    }
+    username: String,
+    qr_code: String,
+    streak_length: Number
+
 });
 
 var Friend = mongoose.model('Friend', FriendSchema);
