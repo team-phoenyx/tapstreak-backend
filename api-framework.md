@@ -31,7 +31,11 @@ Schema 1: user
     Gets user_id and thus logs in a user (Return -1 if username doesn't exist or password_hashed is wrong)
 
     @GET("user/{username}/check-dupe")
-    Tests if username exists already (1 if already exists, 0 if it doesn't)
+    Tests if username exists already ("true" if already exists, "false" if it doesn't)
+
+			{
+				"alreadyExists":"true"
+			}
 
     @GET("user/{user_id}/{user_id}/add-friend")
     Adds a friend via nfc_tag (Return user_id of the friend, 0 if nfc_code doesn't exist)
