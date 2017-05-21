@@ -20,8 +20,11 @@ Schema 1: user
     @GET("user/{user_id}/friends")
     Gets friends of a user (Return empty if user_id doesn't exist)
 
-    @POST("user/{username}/{password_hashed}/{salt}/{nfc_tag}/{qr_code}/create")
-    Makes a user
+    @POST("user/{username}/{password_hashed}/{salt}/{nfc_tag}/create")
+    Makes a user (Return user_id), generate a qr code BUT DON'T RETURN IT!
+
+		@GET("user/{user_id}/get-qr")
+		Gets the QR code from a user (Return -1 if user_id doesn't exist)
 
     @GET("user/{username}/get-salt")
     Gets a salt of user (Return -1 if username doesn't exist)
