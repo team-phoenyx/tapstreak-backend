@@ -7,7 +7,9 @@ Schema 1: user
   Subschema: friend
     Param 1: user_id
     Param 2: username
-    Param 4: streak_length
+    Param 3: streak_length
+		Param 4: last_streak
+		Param 5: streak_start
 
 *****API FRAMEWORK*****
 		@GET("user/{user_id}")
