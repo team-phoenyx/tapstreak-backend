@@ -6,22 +6,24 @@ var UserSchema = new Schema({
     username: String,
     pass_hashed: String,
     salt: String,
-    qr_code: String,
-    streak_length: Number,
-    friends: [{ type: Schema.Types.ObjectId, ref: Friend }]
-
-    //became_friends: {
-    //    type: Date,
-    //    default: Date.now
-    //}
-});
+    friends: [{ type: Schema.Types.ObjectId, ref: Friend, default: null}]
+},
+    {
+        versionKey: false
+    });
 
 var FriendSchema = new Schema({
     username: String,
-    qr_code: String,
-    streak_length: Number
-
-});
+    streak_length: {
+        type: Number,
+        default: 0
+    },
+    first_tapped: Date,
+    last_tapped: Date
+},
+    {
+        versionKey: false
+    });
 
 var Friend = mongoose.model('Friend', FriendSchema);
 module.exports = mongoose.model('Users', UserSchema);

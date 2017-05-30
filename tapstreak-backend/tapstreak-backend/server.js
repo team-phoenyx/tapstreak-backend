@@ -8,6 +8,11 @@ var express = require('express'),
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://phoenyx-tapstreak:154vbqmXwtlRyxFKFCug7QrQGh57LycZdtjgkHuzJDpO4UOgGlKGD04EHMdYszEJwqffIitmXxqX8oPNGiXK0g==@phoenyx-tapstreak.documents.azure.com:10255/?ssl=true&replicaSet=globaldb');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    // connected to DB
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -17,5 +22,5 @@ routes(app);
 
 app.listen(port);
 var tag = 'CODEDAY';
-console.log('tapstreak API running on port' + port);
+console.log('tapstreak API running on port ' + port);
 console.log('version 0.2.05202017 - VERSION TAG: ' + tag);

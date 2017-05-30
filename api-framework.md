@@ -1,6 +1,5 @@
 *****NoSQL DATABASE STRUCTURE*****
 Schema 1: user
-	Param 1: user_id
 	Param 2: username
 	Param 3: pass_hashed
 	Param 4: salt
@@ -12,19 +11,16 @@ Schema 1: user
 		Param 5: streak_start
 
 *****API FRAMEWORK*****
-		@GET("user/{user_id}")
+		@GET("user/{user_id}") **DONE**
     Gets user (Return empty if user_id doesn't exist)
 
-    @GET("user/{user_id}/friends")
-    Gets friends of a user (Return empty if user_id doesn't exist)
+    @GET("user/{user_id}/friends")    Gets friends of a user (Return empty if user_id doesn't exist)
 
-    @GET("user/{username}/{password_hashed}/{salt}/create")
+    @POST("user/{username}/{password_hashed}/{salt}/create") **DONE**
     Makes a user (Return user_id)
-
 			{
 				"user_id":"2"
 			}
-
     @GET("user/{username}/get-salt")
     Gets a salt of user (Return -1 if username doesn't exist)
 
