@@ -21,6 +21,6 @@ var routes = require('./api/routes/tapstreakRoutes');
 routes(app);
 
 app.listen(port);
-var tag = 'CODEDAY';
+var tag = 'BASICFUNCS';
 console.log('tapstreak API running on port ' + port);
-console.log('version 0.2.05202017 - VERSION TAG: ' + tag);
+console.log('version 0.4.05302017 - VERSION TAG: ' + tag);
