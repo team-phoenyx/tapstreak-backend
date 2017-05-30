@@ -18,9 +18,11 @@ Schema 1: user
 
     @POST("user/{username}/{password_hashed}/{salt}/create") **DONE**
     Makes a user (Return user_id)
+
 			{
 				"user_id":"2"
 			}
+
     @GET("user/{username}/get-salt")
     Gets a salt of user (Return -1 if username doesn't exist)
 
