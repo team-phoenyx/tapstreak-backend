@@ -16,7 +16,7 @@ Schema 1: user
     Gets user based on id (Return empty if id doesn't exist)
 		**NOTE:** Changed to POST from GET.
 
-		@POST("/user/{username}")
+		@POST("/user/id/")
 		Gets user id based on username (Return empty is id doesn't exist.
 
     @GET("/user/friends/{id}")    

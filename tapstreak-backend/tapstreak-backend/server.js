@@ -12,6 +12,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     // connected to DB
+    console.log('connected to phoenyx-tapstreak DB!')
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,4 +24,4 @@ routes(app);
 app.listen(port);
 var tag = 'BASICFUNCS';
 console.log('tapstreak API running on port ' + port);
-console.log('version 0.4.05302017 - VERSION TAG: ' + tag);
+console.log('version 0.4.06012017 - VERSION TAG: ' + tag);

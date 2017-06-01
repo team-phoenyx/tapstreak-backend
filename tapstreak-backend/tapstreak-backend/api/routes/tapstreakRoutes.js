@@ -4,14 +4,18 @@ module.exports = function(app) {
     // tapstreak Routes
     // CHANGE TO RELEVANT ONES!
 
-    //debug autism
+    //debugging/upcheck
     app.route('/')
-        .get(tapstreak.testGet)
-        .post(tapstreak.testPost);
+        .get(tapstreak.UpCheck);
 
     app.route('/user/create')
+        // username, pass_hashed, salt passed in Body
         .post(tapstreak.CreateNewUser);
 
     app.route('/user/')
+        // _id passed in Body
         .post(tapstreak.GetUserData);
+
+    app.route('/user/id/')
+        .post(tapstreak.GetUserId);
 };

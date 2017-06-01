@@ -9,6 +9,7 @@ var UserSchema = new Schema({
     friends: [{ type: Schema.Types.ObjectId, ref: Friend, default: null}]
 },
     {
+        // Useless feature for our purposes
         versionKey: false
     });
 
@@ -22,6 +23,7 @@ var FriendSchema = new Schema({
     last_tapped: Date
 },
     {
+        // Useless feature for our purposes
         versionKey: false
     });
 

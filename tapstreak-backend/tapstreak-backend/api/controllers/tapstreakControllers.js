@@ -2,26 +2,30 @@
 var mongoose = require('mongoose'),
     User = mongoose.model('Users');
 
-exports.testGet = function (req, res) {
-    res.json({message: 'Got a GET request!' });
-};
-exports.testPost = function (req, res) {
-    res.json({ message: 'Got a POST request!' });
+exports.UpCheck = function (req, res) {
+    res.send('API is up and running :)');
 };
 
 exports.CreateNewUser = function (req, res) {
     var newUser = new User(req.body);
-    newUser.save(function (err, task) {
+    newUser.save(function (err, user) {
         if (err)
             res.send(err);
-        res.json({ 'user_id': newUser._id });
+        res.json({ 'id': user._id });
     });
 };
 exports.GetUserData = function (req, res) {
-    User.findById(req.params.user_id, function (err, task) {
+    User.findById(req.body.id, function (err, userData) {
         if (err)
             res.send(err);
-        res.json(task);
+        res.json(userData);
+    });
+}
+exports.GetUserId = function (req, res) {
+    User.findOne({ username: req.body.username }, function (err, user) {
+        if (err)
+            res.send(err);
+        res.json({ 'id': user._id });
     });
 }
 
