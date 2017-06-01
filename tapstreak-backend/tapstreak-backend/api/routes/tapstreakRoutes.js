@@ -12,6 +12,6 @@ module.exports = function(app) {
     app.route('/user/create')
         .post(tapstreak.CreateNewUser);
 
-    app.route('/user/:user_id')
-        .get(tapstreak.GetUserData);
+    app.route('/user/')
+        .post(tapstreak.GetUserData);
 };
