@@ -12,7 +12,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     // connected to DB
-    console.log('connected to phoenyx-tapstreak DB!')
+    console.log('connected to phoenyx-tapstreak DB!');
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));

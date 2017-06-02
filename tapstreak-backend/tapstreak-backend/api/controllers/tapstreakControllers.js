@@ -20,13 +20,13 @@ exports.GetUserData = function (req, res) {
             res.send(err);
         res.json(userData);
     });
-}
+};
 exports.GetUserId = function (req, res) {
     User.findOne({ username: req.body.username }, function (err, user) {
         if (err)
             res.send(err);
         res.json({ 'id': user._id });
     });
-}
+};
 
 
