@@ -25,4 +25,4 @@ routes(app);
 app.listen(port);
 var tag = 'BASICFUNCS';
 console.log('tapstreak API running on port ' + port);
-console.log('version 0.4.06062017 - VERSION TAG: ' + tag);
+console.log('version 0.6.06062017 - VERSION TAG: ' + tag);

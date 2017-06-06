@@ -19,6 +19,16 @@ module.exports = function(app) {
     app.route('/user/id/')
         .post(tapstreak.GetUserId);
 
+    app.route('/user/salt/:id/')
+        .get(tapstreak.GetUserSalt);
+
     app.route('/user/checkdupe/:username')
         .get(tapstreak.CheckDuplicateUsername);
+
+    app.route('/user/login/')
+        .post(tapstreak.LoginUser);
+
+    app.route('/user/friends/:id')
+        .get(tapstreak.GetUserFriends);
+
 };

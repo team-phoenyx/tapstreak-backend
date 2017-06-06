@@ -16,30 +16,31 @@ Schema 1: user
     Gets user based on id (Return empty if id doesn't exist)
 		**NOTE:** Changed to POST from GET.
 
-		@POST("/user/id/")
-		Gets user id based on username (Return empty is id doesn't exist.
+		@POST("/user/id/") **DONE**
+		Gets user id based on username (Return empty is id doesn't exist.)
+		**NOTE:** Can potentially replace check-dupe.
 
-    @GET("/user/friends/{id}")    
-		Gets friends of a user (Return empty if id doesn't exist or if no friends).
-		**NOTE:** Returns a list of ids.
+    @GET("/user/friends/{id}") **DONE**
+		Gets friends of a user (Return empty if no friends).
+		**NOTE:** Returns a list of ids; implies that user id being queried exists.
 
     @POST("/user/create/") **DONE**
     Makes a user (Return id)
 			{
 				"id":"2"
 			}
-    @POST("/user/get-salt")
-    Gets a salt of user based on id (Return -1 if username doesn't exist)
+    @POST("/user/get-salt") **DONE**
+    Gets a salt of user based on id. Implies user already exists.
 			{
 				"salt":"ajsdnfasdf"
 			}
 		**NOTE:** Changed to POST from GET.
 
-    @POST("/user/login/{username}/{pass_hashed}")
+    @POST("/user/login/") **DONE**
     Gets id and thus logs in a user (Return -1 if username doesn't exist or pass_hashed is wrong)
 		**NOTE:** Changed to POST from GET.
 
-    @GET("user/{username}/check-dupe")
+    @GET("user/{username}/check-dupe") **DONE**
     Tests if username exists already ("true" if already exists, "false" if it doesn't)
 			{
 				"alreadyExists":"true"

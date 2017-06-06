@@ -33,20 +33,50 @@ exports.GetUserId = function (req, res) {
     User.findOne({ username: req.body.username }, function (err, user) {
         if (err)
             res.send(err);
-        res.json({ '_id': user._id });
+        res.json({ 'id': user._id });
     });
 };
+
+
 
 //Checks if a certain username already exists. 
 exports.CheckDuplicateUsername = function (req, res) {
-    User.findOne({ username: req.params.username }, function (err, userExists) {
+    User.findOne({ username : req.params.username }, function (err, userExists) {
         if (err)
             res.send(err);
         if (userExists == null)
-            res.json({ 'alreadyExists': 'false' })
+            res.json({ 'alreadyExists': 'false' });
         else
-            res.json({ 'alreadyExists' : 'true'})
+            res.json({ 'alreadyExists': 'true' });
     });
 };
 
+exports.GetUserSalt = function (req, res) {
+    User.findOne({ _id : req.params.id }, function (err, user) {
+        if (err)
+            res.send(err);
+        res.json({ 'salt' : user.salt });
+    });
+};
 
+exports.GetUserFriends = function (req, res) {
+    User.findOne({ _id: req.params.id }, function (err, user) {
+        if (err)
+            res.send(err);
+        res.json({ friends : user.friends});
+    });
+};
+
+exports.LoginUser = function (req, res) {
+    User.findOne(({ username: req.body.username }, { pass_hashed: req.body.pass_hashed }), function (err, user) {
+        if (err)
+            res.send(err);
+        if (user == null)
+            res.json({ 'loginSuccessful': 'false' });
+        else {
+            res.json({ 'loginSuccessful': 'true', 'id': user._id });
+
+        }
+            
+    });
+};
