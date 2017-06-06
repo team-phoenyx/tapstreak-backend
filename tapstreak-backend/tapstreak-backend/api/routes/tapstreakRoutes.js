@@ -18,4 +18,7 @@ module.exports = function(app) {
 
     app.route('/user/id/')
         .post(tapstreak.GetUserId);
+
+    app.route('/user/checkdupe/:username')
+        .get(tapstreak.CheckDuplicateUsername);
 };
