@@ -1,6 +1,6 @@
 *****NoSQL DATABASE STRUCTURE*****
 Schema 1: user
-	Param 1: user_id (needed for friend identification)
+	Param 1: user_id (needed for friend identification, also the tag presented via QR and NFC)
 	Param 2: access_token (needed for user commands)
 	Param 2: username
 	Param 3: pass_hashed
@@ -14,8 +14,9 @@ Schema 1: user
 
 *****API FRAMEWORK*****
 
-		@POST("/user-verbose/") **DONE**
+		@POST("/user-internal/")
 		Gets user based on user_id and access_token
+		Returns the information that the user sees about him/herself
 
 		Response codes:
 			1 if id doesn't exist
@@ -45,8 +46,9 @@ Schema 1: user
 			]
 		}
 
-    @POST("/user-short/") **DONE**
+    @POST("/user-short/")
 		Gets user profile (excluding friends) based on user_id (access_token is NOT needed)
+		Returns the information that others can see about the user
 
 		Response codes:
 			1 if id doesn't exists
@@ -59,7 +61,7 @@ Schema 1: user
 			username: ""
 		}
 
-    @POST("/user/create/") **DONE**
+    @POST("/user/create/")
     Registers a new user
 
 		Response codes:
@@ -74,7 +76,7 @@ Schema 1: user
 			"user_id": ""
 		}
 
-    @POST("/user/get-salt") **DONE**
+    @POST("/user/get-salt")
     Gets a salt of user based on username during login
 
 		Response codes:
@@ -89,7 +91,7 @@ Schema 1: user
 			"salt": ""
 		}
 
-    @POST("/user/login/") **DONE**
+    @POST("/user/login/")
     Gets user_id and access_token, thus logging in a user given the correct username and pass_hashed
 
 		Response codes:
