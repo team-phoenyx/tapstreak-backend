@@ -10,7 +10,6 @@ Schema 1: user
     Param 2: username
     Param 3: streak_length
 		Param 4: last_streak
-		Param 5: streak_start
 
 *****API FRAMEWORK*****
 
@@ -34,19 +33,17 @@ Schema 1: user
 					username: "",
 					streak_length: "",
 					last_streak: "",
-					streak_start: ""
 				},
 				{
 					id: "",
 					username: "",
 					streak_length: "",
 					last_streak: "",
-					streak_start: ""
 				}
 			]
 		}
 
-    @POST("/user-short/")
+    @POST("/user-external/")
 		Gets user profile (excluding friends) based on user_id (access_token is NOT needed)
 		Returns the information that others can see about the user
 
@@ -92,7 +89,8 @@ Schema 1: user
 		}
 
     @POST("/user/login/")
-    Gets user_id and access_token, thus logging in a user given the correct username and pass_hashed
+    Gets user_id and access_token, thus logging in a user given the correct username and pass_hashed.
+		Changes access_token to prevent simultaneous logins.
 
 		Response codes:
 			1: Username doesn't exist
@@ -107,6 +105,37 @@ Schema 1: user
 			"user_id": ""
 		}
 
+		@POST("/user/delete/")
+		Deletes user's account.
+
+		Response codes:
+			1: access_token is incorrect
+			2: Pass_hashed is incorrect
+			3: User already doesn't exist
+
+		Parameters: user_id, access_token, pass_hashed
+
+		Response Structure:
+
+		{
+			"resp_code": "",
+		}
+
+		@POST("/user/change-pw/")
+		Changes user's old password to a newly supplied password. Hashing done client-side.
+
+		Response codes:
+			1: Username doesn't exist
+			2: Pass_hashed is incorrect
+
+		Parameters: username, pass_hashed, new_pass_hashed
+
+		Response Structure:
+
+		{
+			"resp_code": "",
+		}
+
     @POST("user/add-friend/")
     Adds a friend via user_id (can be obtained via qr or nfc); MUST BE DONE ON BOTH USER OBJECTS! THIS WILL ONLY BE CALLED ONCE FROM ONE USER!
 
@@ -114,6 +143,24 @@ Schema 1: user
 			1: user_id or friend_id doesn't exist
 			2: access_token is incorrect
 			3: The users are already friends (yes, check for duplicate friends!)
+			4: User is very lonely (check user-id != self)
+
+		Parameters: user_id, access_token, friend_id
+
+		Response Structure:
+
+		{
+			"resp_code": ""
+		}
+
+		@POST("user/remove-friend/")
+		Removes a friend via user_id (NOT IN PERSON, via friends list)
+		HAS TO REMOVE USERS FROM EACHOTHERS FRIENDS LIST AT THE SAME TIME UPON CALL
+
+		Response codes:
+			1: user_id or friend_id doesn't exist
+			2: access_token is incorrect
+			3: The users are already no longer friends (somehow possible).
 
 		Parameters: user_id, access_token, friend_id
 
