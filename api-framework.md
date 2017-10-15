@@ -13,7 +13,7 @@ Schema 1: user
 
 *****API FRAMEWORK*****
 
-		@POST("/user-internal/")
+		@POST("/user/internal/")
 		Gets user based on user_id and access_token
 		Returns the information that the user sees about him/herself
 
@@ -43,7 +43,7 @@ Schema 1: user
 			]
 		}
 
-    @POST("/user-external/")
+    @POST("/user/external/")
 		Gets user profile (excluding friends) based on user_id (access_token is NOT needed)
 		Returns the information that others can see about the user
 
@@ -128,7 +128,7 @@ Schema 1: user
 			1: Username doesn't exist
 			2: Pass_hashed is incorrect
 
-		Parameters: username, pass_hashed, new_pass_hashed
+		Parameters: user_id, access_token, pass_hashed, new_pass_hashed, new_salt
 
 		Response Structure:
 
