@@ -70,7 +70,8 @@ Schema 1: user
 
 		{
 			"resp_code": "",
-			"user_id": ""
+			"user_id": "",
+			"access_token"
 		}
 
     @POST("/user/get-salt")
@@ -102,7 +103,8 @@ Schema 1: user
 
 		{
 			"resp_code": "",
-			"user_id": ""
+			"user_id": "",
+			"access_token"
 		}
 
 		@POST("/user/delete/")
