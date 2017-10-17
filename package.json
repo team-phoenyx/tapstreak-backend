@@ -1,0 +1,23 @@
+{
+  "name": "tapstreak-backend",
+  "version": "1.0.0",
+  "description": "Backend server code for Tapstreak",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://avigloz@bitbucket.org/phoenyxllc/tapstreak-backend.git"
+  },
+  "author": "Avi Glozman",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/phoenyxllc/tapstreak-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "hat": "0.0.3",
+    "mongoose": "^4.12.3",
+    "request-promise": "^4.2.2"
+  }
+}
