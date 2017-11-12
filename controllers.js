@@ -86,7 +86,7 @@ exports.userDelete = function(req, res) {
 };
 
 exports.userChangePw = function(req, res) {
-  if (req.body.user_id == null || Users.findOne({_id: req.body.username) == null) {
+  if (req.body.user_id == null || Users.findOne({_id: req.body.username}) == null) {
     res.json({"resp_code": "1", "resp_msg": "Invalid user_id/non-existant user ..."});
     return;
   }
