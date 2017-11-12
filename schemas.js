@@ -15,7 +15,7 @@ var FriendSchema = new Schema({
   user_id: String,
   username: String,
   streak_length: Number,
-  last_streak: Number,
+  last_streak: Number
   // last_streak is a timestamp*
 });
 
