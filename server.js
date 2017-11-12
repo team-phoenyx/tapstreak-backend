@@ -1,9 +1,7 @@
-
 var express = require('express'),
     app = express(),
     port = process.env.PORT || 3000,
     mongoose = require('mongoose'),
-    colors = require("colors"),
     bodyParser = require('body-parser');
 
 //MONGODB
@@ -12,7 +10,7 @@ var express = require('express'),
   var db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function () {
-      console.log("MongoDB is connected!".random);
+      console.log("MongoDB is connected!");
   });
 //ROUTES
   app.use(bodyParser.urlencoded({ extended: true }));

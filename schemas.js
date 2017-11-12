@@ -8,15 +8,13 @@ var UserSchema = new Schema({
   username: String,
   pass_hashed: String,
   salt: String,
-  friends: [FriendSchema]
-});
-
-var FriendSchema = new Schema({
-  user_id: String,
-  username: String,
-  streak_length: Number,
-  last_streak: Number
-  // last_streak is a timestamp*
+  friends: [{
+    user_id: String,
+    username: String,
+    streak_length: Number,
+    last_streak: Number
+    // last_streak is a timestamp*
+  }]
 });
 
 module.exports = mongoose.model('Users', UserSchema);

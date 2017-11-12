@@ -1,13 +1,12 @@
 'use strict';
 //dependencies
-const colors = require("colors/safe");
 const request = require("request-promise");
 const hat = require("hat");
 
 //mongodb stuff
 const models = require("./schemas.js");
 const mongoose = require("mongoose"),
-  Users = mongoose.model('Users');
+Users = mongoose.model('Users');
 
 exports.userCreate = function(req, res) {
  if (req.body.username == null || req.body.pass_hashed == null || req.body.salt == null || Users.findOne({username: req.body.username}) != null){
@@ -65,6 +64,7 @@ exports.userLogin = function(req, res) {
     });
   }
 };
+}
 
 exports.userDelete = function(req, res) {
   if (req.body.user_id == null || Users.findOne({_id: req.body.user_id}) == null) {

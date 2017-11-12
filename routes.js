@@ -22,5 +22,5 @@ module.exports = function(app) {
   app.route("/api/user/public/")
     .post(tapstreakController.userPublic);
 
-
+}
 /* Copyright © 2017 */
