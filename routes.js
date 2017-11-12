@@ -22,5 +22,10 @@ module.exports = function(app) {
   app.route("/api/user/public/")
     .post(tapstreakController.userPublic);
 
+//FRIEND ENDPOINTS
+  app.route("/api/user/add-friend/")
+    .post(tapstreakController.addFriend);
+  app.route("/api/user/refresh-streak/")
+    .post(tapstreakController.refreshStreak);
 }
 /* Copyright © 2017 */

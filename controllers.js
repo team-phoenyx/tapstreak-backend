@@ -74,22 +74,14 @@ exports.userLogin = function(req, res) {
 }
 
 exports.userDelete = function(req, res) {
-  if (req.body.user_id == null || Users.findOne({_id: req.body.user_id}) == null) {
-    res.json({"resp_code": "1", "resp_msg": "Invalid user_id/non-existant user ..."});
+  if (req.body.user_id == null || req.body.access_token == null || req.body.pass_hashed == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
     return;
   }
-  if (req.body.access_token == null || Users.findOne({_id: req.body.user_id}, '-') == null) {
-    res.json({"resp_code": "2", "resp_msg": "Invalid access_token..."});
-    return;
-  }
-  if (req.body.pass_hashed == null || Users.findOne({access_token: req.body.access_token}) == null) {
-    res.json({"resp_code": "2", "resp_msg": "Invalid access_token..."});
-    return;
-  }
-  Users.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function (err, user) {
-    if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userPersonal failed: " + err});
+  Users.remove({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, function (err, user) {
+    if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userDelete failed: " + err});
     else {
-      res.json(user);
+      res.json({"resp_code": "100"});
     }
   });
 };
@@ -124,5 +116,84 @@ exports.userPublic = function(req, res) {
     }
   });
 };
+
+exports.addFriend = function(req, res) {
+  if (req.body.user_id == null || req.body.friend_id == null || req.body.access_token == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
+    return;
+  }
+
+  Users.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function (err, user) {
+    if (err || user == null) {
+      res.json({"resp_code": "1", "resp_msg": "User non-existent, or access_token incorrect"});
+      return;
+    } else {
+      Users.findOne({_id: req.body.friend_id}, function (err, friend){
+        if (err) {
+          res.json({"resp_code": "2", "resp_msg": "Friend non-existent"});
+          return;
+        } else {
+          var newFriend = {
+            user_id: req.body.friend_id,
+            username: friend.username,
+            streak_length: 1,
+            last_streak: Date.now()
+          };
+
+          user.friends.push(newFriend);
+          user.save(function (err, user) {
+            if (err) {
+              res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
+              return;
+            }
+            else {
+              res.json({"resp_code": "100"});
+            }
+          });
+        }
+      });
+    }
+  });
+}
+
+exports.refreshStreak = function(req, res) {
+  if (req.body.user_id == null || req.body.friend_id == null || req.body.access_token == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
+    return;
+  }
+
+  Users.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function (err, user) {
+    if (err || user == null) {
+      res.json({"resp_code": "1", "resp_msg": "User non-existent, or access_token incorrect"});
+      return;
+    } else {
+      Users.findOne({_id: req.body.friend_id}, function (err, friend){
+        if (err) {
+          res.json({"resp_code": "2", "resp_msg": "Friend non-existent"});
+          return;
+        } else {
+          for (var i = 0; i < user.friends.length; i++) {
+            if (user.friends[i].user_id == req.body.friend_id) {
+              user.friends[i].streak_length = user.friends[i].streak_length + 1;
+              user.friends[i].last_streak = Date.now();
+              break;
+            }
+          }
+          user.save(function (err, user) {
+            if (err) {
+              res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
+              return;
+            }
+            else {
+              res.json({"resp_code": "100"});
+            }
+          });
+        }
+      });
+    }
+  });
+}
+
+
 
 /* Copyright © 2017 */
