@@ -10,7 +10,7 @@ const mongoose = require("mongoose"),
   Users = mongoose.model('Users');
 
 exports.userCreate = function(req, res) {
- if (Users.findOne({username: req.body.uesrname}) != null){
+ if (req.body.username == null || req.body.pass_hashed == null || req.body.salt == null || Users.findOne({username: req.body.username}) != null){
    res.json({"resp_code": "1", "resp_msg": "Username already exists..."});
    return;
  }
@@ -19,7 +19,7 @@ exports.userCreate = function(req, res) {
  newUser.save(function (err, user) {
    if (err) res.json({"resp_code": "1", "resp_msg": "userCreate failed: " + err});
    else {
-     res.json({resp_code: "100", _id: user._id, access_token: user.access_token});
+     res.json({"resp_code": "100", "user_id": user._id, "access_token": user.access_token});
    }
   });
 }
@@ -32,13 +32,13 @@ exports.userGetSalt = function(req, res) {
   Users.findOne({username: req.body.username}, 'salt', function (err, salt) {
     if (err || salt == null) res.json({"resp_code": "1", "resp_msg": "userGetSalt failed: " + err});
     else {
-      res.json(salt);
+      res.json({"salt": salt});
     }
   });
 };
 
 exports.userLogin = function(req, res) {
-  if (req.body.username == null || Users.findOne({username: req.body.username}) == null) {
+  if (req.body.username == null || req.body.pass_hashed == null || Users.findOne({username: req.body.username}) == null) {
     res.json({"resp_code": "1", "resp_msg": "Invalid username/non-existant user..."});
     return;
   }
@@ -51,12 +51,15 @@ exports.userLogin = function(req, res) {
     else {
       //MAY BE BUGGY?
       Users.findOne({username: req.body.username, pass_hashed: req.body.pass_hashed}, function (err, user) {
-        if (err || user == null) res.json({"resp_code": "1", "resp_msg": "User could not be found to update token" + err});
+        if (err || user == null) {
+          res.json({"resp_code": "1", "resp_msg": "User could not be found to update token" + err});
+          return;
+        }
         user.access_token = hat();
         user.save(function (err, updatedUser) {
           if (err) res.json({"resp_code": "1", "resp_msg": "Updating access token failed..." + err});
           else {
-            res.json({resp_code: "100", _id: user._id, access_token: user.access_token});
+            res.json({"resp_code": "100", "user_id": user._id, "access_token": user.access_token});
           }
         });
     });
