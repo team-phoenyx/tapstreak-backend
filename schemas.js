@@ -5,7 +5,10 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   access_token: String,
-  username: String,
+  username: {
+    type: String,
+    unique: true
+  },
   pass_hashed: String,
   salt: String,
   friends: [{

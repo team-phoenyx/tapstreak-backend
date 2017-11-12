@@ -9,10 +9,11 @@ const mongoose = require("mongoose"),
 Users = mongoose.model('Users');
 
 exports.userCreate = function(req, res) {
- if (req.body.username == null || req.body.pass_hashed == null || req.body.salt == null || Users.findOne({username: req.body.username}) != null){
-   res.json({"resp_code": "1", "resp_msg": "Username already exists..."});
+ if (req.body.username == null || req.body.pass_hashed == null || req.body.salt == null){
+   res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
    return;
  }
+
  var a_t = hat();
  var newUser = Users({username: req.body.username, pass_hashed: req.body.pass_hashed, salt: req.body.salt, access_token: a_t});
  newUser.save(function (err, user) {
@@ -24,7 +25,7 @@ exports.userCreate = function(req, res) {
 }
 
 exports.userGetSalt = function(req, res) {
-  if (req.body.username == null || Users.findOne({username: req.body.username}) == null) {
+  if (req.body.username == null) {
     res.json({"resp_code": "1", "resp_msg": "Invalid username/non-existant user..."});
     return;
   }
@@ -37,32 +38,38 @@ exports.userGetSalt = function(req, res) {
 };
 
 exports.userLogin = function(req, res) {
-  if (req.body.username == null || req.body.pass_hashed == null || Users.findOne({username: req.body.username}) == null) {
+  if (req.body.username == null || req.body.pass_hashed == null) {
     res.json({"resp_code": "1", "resp_msg": "Invalid username/non-existant user..."});
     return;
   }
   else {
-    var user = Users.findOne({username: req.body.username});
-    if (req.body.pass_hashed != user.pass_hashed){
-      res.json({"resp_code": "2", "resp_msg": "Incorrect password..."});
-      return;
-    }
-    else {
-      //MAY BE BUGGY?
-      Users.findOne({username: req.body.username, pass_hashed: req.body.pass_hashed}, function (err, user) {
-        if (err || user == null) {
-          res.json({"resp_code": "1", "resp_msg": "User could not be found to update token" + err});
-          return;
-        }
-        user.access_token = hat();
-        user.save(function (err, updatedUser) {
-          if (err) res.json({"resp_code": "1", "resp_msg": "Updating access token failed..." + err});
-          else {
-            res.json({"resp_code": "100", "user_id": user._id, "access_token": user.access_token});
+    Users.findOne({username: req.body.username}, function (err, user) {
+      if (err) {
+        res.json({"resp_code": "1", "resp_msg": "Invalid username/non-existant user..."});
+        return;
+      }
+      if (req.body.pass_hashed != user.pass_hashed){
+        res.json({"resp_code": "2", "resp_msg": "Incorrect password..."});
+        return;
+      }
+      else {
+        //MAY BE BUGGY?
+        Users.findOne({username: req.body.username, pass_hashed: req.body.pass_hashed}, function (err, user) {
+          if (err || user == null) {
+            res.json({"resp_code": "1", "resp_msg": "User could not be found to update token" + err});
+            return;
           }
+          user.access_token = hat();
+          user.save(function (err, updatedUser) {
+            if (err) res.json({"resp_code": "1", "resp_msg": "Updating access token failed..." + err});
+            else {
+              res.json({"resp_code": "100", "user_id": updatedUser._id, "access_token": updatedUser.access_token});
+            }
+          });
         });
+      }
     });
-  }
+
 };
 }
 
