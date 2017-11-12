@@ -15,6 +15,7 @@ Schema 1: user
 *****API FRAMEWORK*****
 
 		@POST("/user/personal/")
+		_done_
 		Gets user based on user_id and access_token
 		Returns the information that the user sees about him/herself
 
@@ -45,6 +46,7 @@ Schema 1: user
 		}
 
     @POST("/user/public/")
+		_done_
 		Gets user profile (excluding friends) based on user_id (access_token is NOT needed)
 		Returns the information that others can see about the user
 
@@ -60,6 +62,7 @@ Schema 1: user
 		}
 
     @POST("/user/create/")
+		_done_
     Registers a new user
 
 		Response codes:
@@ -76,6 +79,7 @@ Schema 1: user
 		}
 
     @POST("/user/salt/")
+		_done_
     Gets a salt of user based on username during login
 
 		Response codes:
@@ -91,6 +95,7 @@ Schema 1: user
 		}
 
     @POST("/user/login/")
+		_done_
     Gets user_id and access_token, thus logging in a user given the correct username and pass_hashed.
 		Changes access_token to prevent simultaneous logins.
 
@@ -109,6 +114,7 @@ Schema 1: user
 		}
 
 		@POST("/user/delete/")
+		_done_
 		Deletes user's account.
 
 		Response codes:
@@ -124,11 +130,12 @@ Schema 1: user
 			"resp_code": "",
 		}
 
-		@POST("/user/change-pw/")
+		@POST("/user/cpw/")
+		_done_
 		Changes user's old password to a newly supplied password. Hashing done client-side.
 
 		Response codes:
-			1: Username doesn't exist
+			1: User doesn't exist
 			2: Pass_hashed is incorrect
 
 		Parameters: user_id, access_token, pass_hashed, new_pass_hashed, new_salt
@@ -139,7 +146,8 @@ Schema 1: user
 			"resp_code": "",
 		}
 
-    @POST("user/add-friend/")
+    @POST("user/afriend/")
+		_done_
     Adds a friend via user_id (can be obtained via qr or nfc); MUST BE DONE ON BOTH USER OBJECTS! THIS WILL ONLY BE CALLED ONCE FROM ONE USER!
 
 		Response codes:
@@ -156,7 +164,8 @@ Schema 1: user
 			"resp_code": ""
 		}
 
-		@POST("user/remove-friend/")
+		@POST("user/rfriend/")
+		_done_
 		Removes a friend via user_id (NOT IN PERSON, via friends list)
 		HAS TO REMOVE USERS FROM EACHOTHERS FRIENDS LIST AT THE SAME TIME UPON CALL
 
@@ -173,7 +182,8 @@ Schema 1: user
 			"resp_code": ""
 		}
 
-    @POST("user/refresh-streak/")
+    @POST("user/rfstreak/")
+		_done_
     Renews a streak; +1 on streak counter if sufficient time has passed, refresh last_streak to current timestamp
 		MUST BE DONE ON BOTH USER OBJECTS! THIS WILL ONLY BE CALLED ONCE FROM ONE USER!
 

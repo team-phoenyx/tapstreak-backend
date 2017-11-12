@@ -69,8 +69,7 @@ exports.userLogin = function(req, res) {
         });
       }
     });
-
-};
+  };
 }
 
 exports.userDelete = function(req, res) {
@@ -82,6 +81,20 @@ exports.userDelete = function(req, res) {
     if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userDelete failed: " + err});
     else {
       res.json({"resp_code": "100"});
+    }
+  });
+};
+
+exports.userChangePw = function(req, res) {
+  if (req.body.user_id == null || Users.findOne({_id: req.body.username) == null) {
+    res.json({"resp_code": "1", "resp_msg": "Invalid user_id/non-existant user ..."});
+    return;
+  }
+  var a_t = hat();
+  Users.update({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, {pass_hashed: req.body.new_pass_hashed, salt: req.body.new_salt, access_token: a_t}, function (err, user) {
+    if (err || user == null) res.json({"resp_code": "2", "resp_msg": "userChangePw failed: " + err});
+    else {
+      res.json({resp_code: "100", resp_msg: "Password changed successfully!"});
     }
   });
 };
@@ -116,6 +129,47 @@ exports.userPublic = function(req, res) {
     }
   });
 };
+
+exports.removeFriend = function(req, res) {
+  if (req.body.user_id == null || req.body.friend_id == null || req.body.access_token == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
+    return;
+  }
+
+  Users.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function (err, user) {
+    if (err || user == null) {
+      res.json({"resp_code": "1", "resp_msg": "User non-existent, or access_token incorrect"});
+      return;
+    } else {
+      Users.findOne({_id: req.body.friend_id}, function (err, friend){
+        if (err) {
+          res.json({"resp_code": "2", "resp_msg": "Friend non-existent"});
+          return;
+        } else {
+          user.friends.splice({_id: req.body.friend_id}, 1);
+          friend.friends.splice({_id: user._id}, 1);
+          user.save(function (err, user) {
+            if (err) {
+              res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
+              return;
+            }
+            else {
+              friend.save(function (err, friend) {
+                if (err) {
+                  res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
+                  return;
+                }
+                else {
+                  res.json({"resp_code": "100"});
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+}
 
 exports.addFriend = function(req, res) {
   if (req.body.user_id == null || req.body.friend_id == null || req.body.access_token == null) {
