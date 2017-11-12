@@ -140,14 +140,30 @@ exports.addFriend = function(req, res) {
             last_streak: Date.now()
           };
 
+          var youFriend = {
+            user_id: req.body.user_id,
+            username: user.username,
+            streak_length: 1,
+            last_streak: Date.now()
+          }
+
           user.friends.push(newFriend);
+          friend.friends.push(youFriend);
           user.save(function (err, user) {
             if (err) {
               res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
               return;
             }
             else {
-              res.json({"resp_code": "100"});
+              friend.save(function (err, friend) {
+                if (err) {
+                  res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
+                  return;
+                }
+                else {
+                  res.json({"resp_code": "100"});
+                }
+              });
             }
           });
         }
@@ -174,18 +190,38 @@ exports.refreshStreak = function(req, res) {
         } else {
           for (var i = 0; i < user.friends.length; i++) {
             if (user.friends[i].user_id == req.body.friend_id) {
+              if (Date.now() - user.friends[i].last_streak < 57600000) {
+                res.json({"resp_code": "100", "resp_msg": "Cannot refresh too early"});
+                return;
+              }
               user.friends[i].streak_length = user.friends[i].streak_length + 1;
               user.friends[i].last_streak = Date.now();
               break;
             }
           }
+          for (var i = 0; i < friend.friends.length; i++) {
+            if (friend.friends[i].user_id == req.body.user_id) {
+              friend.friends[i].streak_length = friend.friends[i].streak_length + 1;
+              friend.friends[i].last_streak = Date.now();
+              break;
+            }
+          }
+
           user.save(function (err, user) {
             if (err) {
               res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
               return;
             }
             else {
-              res.json({"resp_code": "100"});
+              friend.save(function (err, friend) {
+                if (err) {
+                  res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
+                  return;
+                } else {
+                  res.json({"resp_code": "100"});
+                }
+              });
+
             }
           });
         }
