@@ -32,7 +32,7 @@ exports.userGetSalt = function(req, res) {
   Users.findOne({username: req.body.username}, 'salt', function (err, salt) {
     if (err || salt == null) res.json({"resp_code": "1", "resp_msg": "userGetSalt failed: " + err});
     else {
-      res.json({"salt": salt});
+      res.json(salt);
     }
   });
 };
