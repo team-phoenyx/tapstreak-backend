@@ -8,6 +8,24 @@ const models = require("./schemas.js");
 const mongoose = require("mongoose"),
 Users = mongoose.model('Users');
 
+exports.checkUsernameExists = function(req, res) {
+  if (req.body.username == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
+    return;
+  }
+
+  Users.count({username: req.body.username}, function(err, count) {
+    if (err) res.json({"resp_code": "1", "resp_msg": "Failed to query Users collection"});
+    else {
+      if (count > 0) {
+        res.json({"resp_code": "2", "resp_msg": "Username exists"});
+      } else {
+        res.json({"resp_code": "100", "resp_msg": "Username is unique"});
+      }
+    }
+  });
+}
+
 exports.userCreate = function(req, res) {
  if (req.body.username == null || req.body.pass_hashed == null || req.body.salt == null){
    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
@@ -26,7 +44,7 @@ exports.userCreate = function(req, res) {
 
 exports.userGetSalt = function(req, res) {
   if (req.body.username == null) {
-    res.json({"resp_code": "1", "resp_msg": "Invalid username/non-existant user..."});
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
     return;
   }
   Users.findOne({username: req.body.username}, 'salt', function (err, salt) {

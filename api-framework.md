@@ -61,6 +61,23 @@ Schema 1: user
 			username: ""
 		}
 
+		@POST("/user/un-exists/")
+    Checks if a username exists
+
+		Response codes:
+			100: Username is unique
+			2: Username is duplicate
+			1: Sum shit happen
+
+		Parameters: username
+
+		Response Structure:
+
+		{
+			"resp_code": ""
+		}
+
+
     @POST("/user/create/")
 		_done_
     Registers a new user
