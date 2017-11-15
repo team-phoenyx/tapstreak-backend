@@ -7,7 +7,7 @@ module.exports = function(app) {
     res.json("pong");
   });
 //USER CREATION/DELETION AND LOGIN
-  app.route("/api/user/un-exists/")
+  app.route("/api/user/unexists/")
     .post(tapstreakController.checkUsernameExists);
   app.route("/api/user/create/")
     .post(tapstreakController.userCreate);
