@@ -108,6 +108,8 @@ exports.userDelete = function(req, res) {
         if (!err) {
           friend.friends.splice({_id: user._id}, 1);
           friend.save(function (err, friend) {});
+        } else {
+          res.json({"resp_code": "1", "resp_msg": "meme me up" + err});
         }
       });
     }
