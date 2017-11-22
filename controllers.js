@@ -103,7 +103,7 @@ exports.userDelete = function(req, res) {
     var friends = user.friends;
     //Iterate through every friend, remove this user from his/her friends' friend lists
     for (var i = 0; i < friends.length; i++) {
-      var friendID = friends[i]._id;
+      var friendID = friends[i].user_id;
       Users.findOne({_id: friendID}, function (err, friend) {
         if (!err && friend != null) {
           friend.friends.splice({user_id: user._id}, 1);
