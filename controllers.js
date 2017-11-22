@@ -106,7 +106,7 @@ exports.userDelete = function(req, res) {
       var friendID = friends[i]._id;
       Users.findOne({_id: friendID}, function (err, friend) {
         if (!err) {
-          friend.friends.splice({_id: user._id}, 1);
+          friend.friends.splice({user_id: user._id}, 1);
           friend.save(function (err, friend) {});
         } else {
           res.json({"resp_code": "1", "resp_msg": "meme me up" + err});
@@ -184,8 +184,8 @@ exports.removeFriend = function(req, res) {
           res.json({"resp_code": "2", "resp_msg": "Friend non-existent"});
           return;
         } else {
-          user.friends.splice({_id: req.body.friend_id}, 1);
-          friend.friends.splice({_id: user._id}, 1);
+          user.friends.splice({user_id: req.body.friend_id}, 1);
+          friend.friends.splice({user_id: user._id}, 1);
           user.save(function (err, user) {
             if (err) {
               res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
