@@ -95,11 +95,29 @@ exports.userDelete = function(req, res) {
     res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
     return;
   }
-  Users.remove({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, function (err, user) {
-    if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userDelete failed: " + err});
-    else {
-      res.json({"resp_code": "100"});
+  Users.findOne({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, function(err, user) {
+    if (err || user == null) {
+      res.json({"resp_code": "1", "resp_msg": "User could not be found: " + err});
+      return;
     }
+    var friends = user.friends;
+    //Iterate through every friend, remove this user from his/her friends' friend lists
+    for (i = 0; i < friends.length; i++) {
+      var friendID = friends[i]._id;
+      Users.findOne({_id: friend._id}, function (err, friend) {
+        if (!err) {
+          friend.friends.splice({_id: user._id}, 1);
+          friend.save(function (err, friend) {});
+        }
+      });
+    }
+
+    Users.remove({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, function (err, user) {
+      if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userDelete failed: " + err});
+      else {
+        res.json({"resp_code": "100", "resp_msg", "User deleted"});
+      }
+    });
   });
 };
 
