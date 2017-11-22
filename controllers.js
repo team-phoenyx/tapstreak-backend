@@ -179,30 +179,22 @@ exports.removeFriend = function(req, res) {
       res.json({"resp_code": "1", "resp_msg": "User non-existent, or access_token incorrect"});
       return;
     } else {
-      Users.findOne({_id: req.body.friend_id}, function (err, friend){
+      user.friends.splice({user_id: req.body.friend_id}, 1);
+      user.save(function (err, user) {
         if (err) {
-          res.json({"resp_code": "2", "resp_msg": "Friend non-existent"});
+          res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
           return;
         } else {
-          user.friends.splice({user_id: req.body.friend_id}, 1);
+          res.json({"resp_code": "100"});
+        }
+      });
+
+      Users.findOne({_id: req.body.friend_id}, function (err, friend){
+        if (err || friend == null) {
+          return;
+        } else {
           friend.friends.splice({user_id: user._id}, 1);
-          user.save(function (err, user) {
-            if (err) {
-              res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
-              return;
-            }
-            else {
-              friend.save(function (err, friend) {
-                if (err) {
-                  res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
-                  return;
-                }
-                else {
-                  res.json({"resp_code": "100"});
-                }
-              });
-            }
-          });
+          friend.save(function (err, friend) {});
         }
       });
     }
