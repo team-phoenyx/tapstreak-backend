@@ -105,11 +105,9 @@ exports.userDelete = function(req, res) {
     for (var i = 0; i < friends.length; i++) {
       var friendID = friends[i]._id;
       Users.findOne({_id: friendID}, function (err, friend) {
-        if (!err) {
+        if (!err && friend != null) {
           friend.friends.splice({user_id: user._id}, 1);
           friend.save(function (err, friend) {});
-        } else {
-          res.json({"resp_code": "1", "resp_msg": "meme me up" + err});
         }
       });
     }
