@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 //dependencies
 const request = require("request-promise");
 const hat = require("hat");
@@ -115,7 +115,7 @@ exports.userDelete = function(req, res) {
     Users.remove({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, function (err, user) {
       if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userDelete failed: " + err});
       else {
-        res.json({"resp_code": "100", "resp_msg", "User deleted"});
+        res.json({"resp_code": "100", "resp_msg": "User deleted"});
       }
     });
   });
