@@ -142,7 +142,7 @@ exports.userChangeUn = function(req, res) {
   }
   Users.update({_id: req.body.user_id, access_token: req.body.access_token}, {username: req.body.new_username}, function(err, newUser) {
     if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userChangeUsername failed: " + err});
-    else res.json({resp_code: "100"});
+    else res.json({"resp_code": "100"});
   });
 };
 
