@@ -144,7 +144,7 @@ exports.userChangeUn = function(req, res) {
     if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userChangeUsername failed: " + err});
     else res.json({resp_code: "100"});
   });
-}
+};
 
 exports.userPersonal = function(req, res) {
   if (req.body.user_id == null || Users.findOne({_id: req.body.user_id}) == null) {
