@@ -21,6 +21,8 @@ module.exports = function(app) {
     .post(tapstreakController.userChangePw);
   app.route("/api/user/cun/")
     .post(tapstreakController.userChangeUn);
+  app.route("/api/user/setloc")
+    .post(tapstreakController.setLocation);
 
 //USER INFO ENDPOINTS
   app.route("/api/user/personal/")

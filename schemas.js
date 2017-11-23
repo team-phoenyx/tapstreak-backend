@@ -11,6 +11,9 @@ var UserSchema = new Schema({
   },
   pass_hashed: String,
   salt: String,
+  last_seen_time: Number, //timestamp
+  last_seen_lat: Number,
+  last_seen_lon: Number,
   friends: [{
     user_id: String,
     username: String,

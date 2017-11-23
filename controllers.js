@@ -210,7 +210,7 @@ exports.removeFriend = function(req, res) {
       });
     }
   });
-}
+};
 
 exports.addFriend = function(req, res) {
   if (req.body.user_id == null || req.body.friend_id == null || req.body.access_token == null) {
@@ -265,7 +265,21 @@ exports.addFriend = function(req, res) {
       });
     }
   });
-}
+};
+
+exports.setLocation = function(req, res) {
+  if (req.body.user_id == null || req.body.access_token == null || req.body.time == null || req.body.lat == null || req.body.lon == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
+    return;
+  }
+
+  Users.update({_id: req.body.user_id, access_token: req.body.access_token}, {last_seen_time: req.body.time, last_seen_lat: req.body.lat, last_seen_lon: req.body.lon}, function(err, newUser) {
+    if (err || newUser == null) res.json({"resp_code": "1", "resp_msg": "setLocation failed: " + err});
+    else {
+      res.json({"resp_code": "100"});
+    }
+  });
+};
 
 exports.refreshStreak = function(req, res) {
   if (req.body.user_id == null || req.body.friend_id == null || req.body.access_token == null) {
@@ -323,7 +337,7 @@ exports.refreshStreak = function(req, res) {
       });
     }
   });
-}
+};
 
 
 
