@@ -130,7 +130,7 @@ exports.userChangePw = function(req, res) {
   Users.update({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, {pass_hashed: req.body.new_pass_hashed, salt: req.body.new_salt, access_token: a_t}, function (err, user) {
     if (err || user == null) res.json({"resp_code": "2", "resp_msg": "userChangePw failed: " + err});
     else {
-      res.json({resp_code: "100", resp_msg: a_t});
+      res.json({"resp_code": "100", "resp_msg": a_t});
     }
   });
 };
@@ -142,7 +142,9 @@ exports.userChangeUn = function(req, res) {
   }
   Users.update({_id: req.body.user_id, access_token: req.body.access_token}, {username: req.body.new_username}, function(err, newUser) {
     if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userChangeUsername failed: " + err});
-    else res.json({"resp_code": "100"});
+    else {
+      res.json({"resp_code": "100"});
+    }
   });
 };
 
