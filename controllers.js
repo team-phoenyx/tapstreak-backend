@@ -122,18 +122,29 @@ exports.userDelete = function(req, res) {
 };
 
 exports.userChangePw = function(req, res) {
-  if (req.body.user_id == null || Users.findOne({_id: req.body.username}) == null) {
-    res.json({"resp_code": "1", "resp_msg": "Invalid user_id/non-existant user ..."});
+  if (req.body.user_id == null || req.body.access_token == null || req.body.pass_hashed == null || req.body.new_pass_hashed == null || req.body.new_salt == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
     return;
   }
   var a_t = hat();
   Users.update({_id: req.body.user_id, access_token: req.body.access_token, pass_hashed: req.body.pass_hashed}, {pass_hashed: req.body.new_pass_hashed, salt: req.body.new_salt, access_token: a_t}, function (err, user) {
     if (err || user == null) res.json({"resp_code": "2", "resp_msg": "userChangePw failed: " + err});
     else {
-      res.json({resp_code: "100", resp_msg: "Password changed successfully!"});
+      res.json({resp_code: "100", resp_msg: a_t});
     }
   });
 };
+
+exports.userChangeUn = function(req, res) {
+  if (req.body.user_id == null || req.body.access_token == null || req.body.new_username == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
+    return;
+  }
+  Users.update({_id: req.body.user_id, access_token: req.body.access_token}, {username: req.body.new_username}, function(err, newUser) {
+    if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userChangeUsername failed: " + err});
+    else res.json({resp_code: "100"});
+  });
+}
 
 exports.userPersonal = function(req, res) {
   if (req.body.user_id == null || Users.findOne({_id: req.body.user_id}) == null) {
