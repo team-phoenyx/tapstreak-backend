@@ -21,6 +21,7 @@ var UserSchema = new Schema({
   }]
   streaks: [{
     user_id: String,
+    username: String,
     streak_length: Number,
     last_streak: Number
   }]
