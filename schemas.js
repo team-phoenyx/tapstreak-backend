@@ -17,9 +17,12 @@ var UserSchema = new Schema({
   friends: [{
     user_id: String,
     username: String,
+    // last_streak is a timestamp*
+  }]
+  streaks: [{
+    user_id: String,
     streak_length: Number,
     last_streak: Number
-    // last_streak is a timestamp*
   }]
 });
 
