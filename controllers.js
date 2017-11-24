@@ -1,4 +1,4 @@
-﻿'use strict';
+streaks﻿'use strict';
 //dependencies
 const request = require("request-promise");
 const hat = require("hat");
@@ -107,6 +107,7 @@ exports.userDelete = function(req, res) {
       Users.findOne({_id: friendID}, function (err, friend) {
         if (!err && friend != null) {
           friend.friends.splice({user_id: user._id}, 1);
+          friend.streaks.splice({user_id: user._id}, 1);
           friend.save(function (err, friend) {});
         }
       });
@@ -191,6 +192,7 @@ exports.removeFriend = function(req, res) {
       return;
     } else {
       user.friends.splice({user_id: req.body.friend_id}, 1);
+      user.streaks.splice({user_id: req.body.friend_id}, 1);
       user.save(function (err, user) {
         if (err) {
           res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
@@ -205,6 +207,7 @@ exports.removeFriend = function(req, res) {
           return;
         } else {
           friend.friends.splice({user_id: user._id}, 1);
+          friend.streaks.splice({user_id: user._id}, 1);
           friend.save(function (err, friend) {});
         }
       });
@@ -230,12 +233,22 @@ exports.addFriend = function(req, res) {
         } else {
           var newFriend = {
             user_id: req.body.friend_id,
+            username: friend.username
+          };
+
+          var newStreak = {
+            user_id: req.body.friend_id,
             username: friend.username,
             streak_length: 1,
             last_streak: Date.now()
-          };
+          }
 
           var youFriend = {
+            user_id: req.body.user_id,
+            username: user.username
+          }
+
+          var youStreak = {
             user_id: req.body.user_id,
             username: user.username,
             streak_length: 1,
@@ -243,7 +256,10 @@ exports.addFriend = function(req, res) {
           }
 
           user.friends.push(newFriend);
+          user.streaks.push(newStreak);
           friend.friends.push(youFriend);
+          friend.streaks.push(youStreak);
+
           user.save(function (err, user) {
             if (err) {
               res.json({"resp_code": "1", "resp_msg": "Saving user failed: " + err});
@@ -297,21 +313,21 @@ exports.refreshStreak = function(req, res) {
           res.json({"resp_code": "2", "resp_msg": "Friend non-existent"});
           return;
         } else {
-          for (var i = 0; i < user.friends.length; i++) {
-            if (user.friends[i].user_id == req.body.friend_id) {
-              if (Date.now() - user.friends[i].last_streak < 57600000) {
+          for (var i = 0; i < user.streaks.length; i++) {
+            if (user.streaks[i].user_id == req.body.friend_id) {
+              if (Date.now() - user.streaks[i].last_streak < 57600000) {
                 res.json({"resp_code": "100", "resp_msg": "Cannot refresh too early"});
                 return;
               }
-              user.friends[i].streak_length = user.friends[i].streak_length + 1;
-              user.friends[i].last_streak = Date.now();
+              user.streaks[i].streak_length = user.streaks[i].streak_length + 1;
+              user.streaks[i].last_streak = Date.now();
               break;
             }
           }
-          for (var i = 0; i < friend.friends.length; i++) {
-            if (friend.friends[i].user_id == req.body.user_id) {
-              friend.friends[i].streak_length = friend.friends[i].streak_length + 1;
-              friend.friends[i].last_streak = Date.now();
+          for (var i = 0; i < friend.streaks.length; i++) {
+            if (friend.streaks[i].user_id == req.body.user_id) {
+              friend.streaks[i].streak_length = friend.streaks[i].streak_length + 1;
+              friend.streaks[i].last_streak = Date.now();
               break;
             }
           }
