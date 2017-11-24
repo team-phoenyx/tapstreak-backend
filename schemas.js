@@ -16,7 +16,7 @@ var UserSchema = new Schema({
   last_seen_lon: Number,
   friends: [{
     user_id: String,
-    username: String,
+    username: String
   }]
   streaks: [{
     user_id: String,
