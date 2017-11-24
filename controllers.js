@@ -1,4 +1,4 @@
-streaks﻿'use strict';
+﻿'use strict';
 //dependencies
 const request = require("request-promise");
 const hat = require("hat");
