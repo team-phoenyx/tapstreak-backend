@@ -161,6 +161,19 @@ exports.userPersonal = function(req, res) {
   Users.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function (err, user) {
     if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userPersonal failed: " + err});
     else {
+      var counter = 0;
+      for (var i = 0; i < user.friends.length; i++) {
+        var friend = user.friends[i];
+        Users.findOne({_id: friend.user_id}, function (err, friendFull) {
+          if (!err && friendFull != null) {
+            user.friends[i].last_seen_time = friendFull.last_seen_time;
+            user.friends[i].last_seen_lat = friendFull.last_seen_lat;
+            user.friends[i].last_seen_lon = friendFull.last_seen_lon;
+          }
+          counter++;
+        });
+      }
+      while (counter < user.friends.length) {} //makes sure all the friends' locations are pulled before sending response
       res.json(user);
     }
   });
