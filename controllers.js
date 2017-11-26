@@ -165,9 +165,15 @@ exports.userPersonal = function(req, res) {
       var newFriends = [];
       var getFriendCallback = function(friendFull, i) {
         if (!err && friendFull != null) {
-          newFriends[i].last_seen_time = friendFull.last_seen_time;
-          newFriends[i].last_seen_lat = friendFull.last_seen_lat;
-          newFriends[i].last_seen_lon = friendFull.last_seen_lon;
+          var newFriend = {
+            username: friendFull.username,
+            user_id: friendFull._id,
+            last_seen_time: friendFull.last_seen_time,
+            last_seen_lat: friendFull.last_seen_lat,
+            last_seen_lon: friendFull.last_seen_lon
+          }
+          newFriends[i] = newFriend
+          console.log(newFriends);
         }
         counter++;
         if (counter == user.friends.length) {
@@ -177,7 +183,6 @@ exports.userPersonal = function(req, res) {
       };
       for (var i = 0; i < user.friends.length; i++) {
         var friend = user.friends[i];
-        newFriends[i] = friend;
         var x = i;
         Users.findOne({_id: friend.user_id}, function (err, friendFull) {
           getFriendCallback(friendFull, x);
