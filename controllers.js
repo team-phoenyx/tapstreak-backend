@@ -162,7 +162,8 @@ exports.userPersonal = function(req, res) {
     if (err || user == null) res.json({"resp_code": "1", "resp_msg": "userPersonal failed: " + err});
     else {
       var counter = 0;
-      var getFriendCallback = function(friend) {
+      var getFriendCallback = function(friendFull, i) {
+        console.log(user.friends);
         if (!err && friendFull != null) {
           user.friends[i].last_seen_time = friendFull.last_seen_time;
           user.friends[i].last_seen_lat = friendFull.last_seen_lat;
@@ -176,7 +177,7 @@ exports.userPersonal = function(req, res) {
       for (var i = 0; i < user.friends.length; i++) {
         var friend = user.friends[i];
         Users.findOne({_id: friend.user_id}, function (err, friendFull) {
-          getFriendCallback(friendFull);
+          getFriendCallback(friendFull, i);
         });
       }
 
