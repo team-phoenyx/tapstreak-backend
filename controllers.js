@@ -192,7 +192,15 @@ exports.userPersonal = function(req, res) {
           getFriendCallback(friendFull, x);
         });
       }
-      if (user.friends.length == 0) getFriendCallback(null, 0);
+      if (user.friends.length == 0) {
+        var newUser = {
+          _id: user._id,
+          username: user.username,
+          streaks: [],
+          friends: []
+        };
+        res.json(newUser);
+      }
     }
   });
 };
