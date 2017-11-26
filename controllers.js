@@ -192,6 +192,7 @@ exports.userPersonal = function(req, res) {
           getFriendCallback(friendFull, x);
         });
       }
+      if (user.friends.length == 0) getFriendCallback(null, 0);
     }
   });
 };
