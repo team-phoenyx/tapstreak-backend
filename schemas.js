@@ -22,7 +22,13 @@ var UserSchema = new Schema({
     user_id: String,
     username: String,
     streak_length: Number, //streak counter
-    last_streak: Number //timestamp
+    last_streak: Number, //timestamp
+    updatedAt: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+      expires: '28h'
+    }
   }]
 });
 

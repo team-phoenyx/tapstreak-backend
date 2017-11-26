@@ -345,12 +345,15 @@ exports.refreshStreak = function(req, res) {
         } else {
           for (var i = 0; i < user.streaks.length; i++) {
             if (user.streaks[i].user_id == req.body.friend_id) {
-              if (Date.now() - user.streaks[i].last_streak < 57600000) {
+              if (Date.now() - user.streaks[i].last_streak < 43200000) {
                 res.json({"resp_code": "100", "resp_msg": "Cannot refresh too early"});
                 return;
               }
               user.streaks[i].streak_length = user.streaks[i].streak_length + 1;
               user.streaks[i].last_streak = Date.now();
+              user.streaks[i].updatedAt.expires = null;
+              user.streaks[i].updatedAt = Date.now();
+              user.streaks[i].updatedAt.expires = '28h';
               break;
             }
           }
@@ -358,6 +361,9 @@ exports.refreshStreak = function(req, res) {
             if (friend.streaks[i].user_id == req.body.user_id) {
               friend.streaks[i].streak_length = friend.streaks[i].streak_length + 1;
               friend.streaks[i].last_streak = Date.now();
+              friend.streaks[i].updatedAt.expires = null;
+              friend.streaks[i].updatedAt = Date.now();
+              friend.streaks[i].updatedAt.expires = '28h';
               break;
             }
           }
