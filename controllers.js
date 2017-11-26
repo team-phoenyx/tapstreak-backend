@@ -163,7 +163,7 @@ exports.userPersonal = function(req, res) {
     else {
       var counter = 0;
       var getFriendCallback = function(friendFull, i) {
-        console.log(user.friends);
+	console.log("got callback with i = " + i);
         if (!err && friendFull != null) {
           user.friends[i].last_seen_time = friendFull.last_seen_time;
           user.friends[i].last_seen_lat = friendFull.last_seen_lat;
@@ -171,18 +171,19 @@ exports.userPersonal = function(req, res) {
         }
         counter++;
         if (counter == user.friends.length) {
-          res.json(user);
+          console.log("sending response with counter = " + counter);
+	  res.json(user);
         }
       };
+      console.log("there are " + user.friends.length + " friends");
       for (var i = 0; i < user.friends.length; i++) {
+	console.log("for loop iteration with i = " + i);
         var friend = user.friends[i];
-        Users.findOne({_id: friend.user_id}, function (err, friendFull) {
-          getFriendCallback(friendFull, i);
+        var x = i;
+	Users.findOne({_id: friend.user_id}, function (err, friendFull) {
+          getFriendCallback(friendFull, x);
         });
       }
-
-
-      res.json(user);
     }
   });
 };
