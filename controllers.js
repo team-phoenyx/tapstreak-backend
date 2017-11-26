@@ -176,17 +176,13 @@ exports.userPersonal = function(req, res) {
         }
         counter++;
         if (counter == user.friends.length) {
-	  var newUser = {
-		_id: user._id,
-		username: user.username,
-		streaks: user.streaks,
-		friends: newFriends.slice(0)
-	  };
-	  //user.friends = newFriends.slice(0);
-	  //console.log(newFriends);
-	  //console.log(user.friends);
-	  console.log(newUser);	  
-	  res.json(newUser);
+          var newUser = {
+            _id: user._id,
+            username: user.username,
+            streaks: user.streaks,
+            friends: newFriends.slice(0)
+          };
+          res.json(newUser);
         }
       };
       for (var i = 0; i < user.friends.length; i++) {
