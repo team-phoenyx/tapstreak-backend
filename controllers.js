@@ -163,7 +163,7 @@ exports.userPersonal = function(req, res) {
     else {
       var counter = 0;
       var newFriends = [];
-      var getFriendCallback = function(friendFull, i) {
+      var getFriendCallback = function (friendFull) {
         if (!err && friendFull != null) {
           var newFriend = {
             username: friendFull.username,
@@ -171,8 +171,8 @@ exports.userPersonal = function(req, res) {
             last_seen_time: friendFull.last_seen_time,
             last_seen_lat: friendFull.last_seen_lat,
             last_seen_lon: friendFull.last_seen_lon
-          }
-          newFriends[i] = newFriend
+          };
+          newFriends.push(newFriend);
         }
         counter++;
         if (counter == user.friends.length) {
@@ -187,9 +187,8 @@ exports.userPersonal = function(req, res) {
       };
       for (var i = 0; i < user.friends.length; i++) {
         var friend = user.friends[i];
-        var x = i;
         Users.findOne({_id: friend.user_id}, function (err, friendFull) {
-          getFriendCallback(friendFull, x);
+          getFriendCallback(friendFull);
         });
       }
       if (user.friends.length == 0) {
@@ -280,19 +279,19 @@ exports.addFriend = function(req, res) {
             username: friend.username,
             streak_length: 1,
             last_streak: Date.now()
-          }
+          };
 
           var youFriend = {
             user_id: req.body.user_id,
             username: user.username
-          }
+          };
 
           var youStreak = {
             user_id: req.body.user_id,
             username: user.username,
             streak_length: 1,
             last_streak: Date.now()
-          }
+          };
 
           user.friends.push(newFriend);
           user.streaks.push(newStreak);
