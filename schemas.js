@@ -19,17 +19,20 @@ var UserSchema = new Schema({
     username: String
   }],
   streaks: [{
-    user_id: String,
-    username: String,
-    streak_length: Number, //streak counter
-    last_streak: Number, //timestamp
-    updatedAt: {
-      type: Date,
-      required: true,
-      default: Date.now(),
-      expires: '28h'
-    }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users'
   }]
 });
+
+var StreakSchema = new Schema({
+  streak_length: Number, //streak counter
+  last_streak: Number, //timestamp
+  expireAt: {
+    type: Date,
+    default: undefined
+  }
+});
+
+StreakSchema.index({"expireAt": 1}, {expireAfterSeconds: 0});
 
 module.exports = mongoose.model('Users', UserSchema);
