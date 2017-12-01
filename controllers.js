@@ -81,7 +81,7 @@ exports.userLogin = function(req, res) {
           user.save(function (err, updatedUser) {
             if (err) res.json({"resp_code": "1", "resp_msg": "Updating access token failed..." + err});
             else {
-              res.json({"resp_code": "100", "user_id": updatedUser._id, "access_token": updatedUser.access_token});
+              res.json({"resp_code": "100", "user_id": updatedUser._id, "access_token": updatedUser.access_token, "username": updateUser.username});
             }
           });
         });
@@ -106,7 +106,7 @@ exports.reauthenticate = function(req, res) {
     user.save(function (err, updatedUser) {
       if (err) res.json({"resp_code": "1", "resp_msg": "Updating access token failed..." + err});
       else {
-        res.json({"resp_code": "100", "resp_msg": updatedUser.access_token});
+        res.json({"resp_code": "100", "user_id": updatedUser._id, "access_token": updatedUser.access_token, "username": updatedUser.username});
       }
     });
   });
