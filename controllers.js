@@ -90,6 +90,28 @@ exports.userLogin = function(req, res) {
   };
 }
 
+exports.reauthenticate = function(req, res) {
+  if (req.body.user_id == null || req.body.access_token == null) {
+    res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});
+    return;
+  }
+
+  User.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function(err, user) {
+    if (err || user == null) {
+      res.json({"resp_code": "2", "resp_msg": "User could not be found: " + err});
+      return;
+    }
+
+    user.access_token = hat();
+    user.save(function (err, updatedUser) {
+      if (err) res.json({"resp_code": "1", "resp_msg": "Updating access token failed..." + err});
+      else {
+        res.json({"resp_code": "100", "resp_msg": updatedUser.access_token});
+      }
+    });
+  });
+}
+
 exports.userDelete = function(req, res) {
   if (req.body.user_id == null || req.body.access_token == null || req.body.pass_hashed == null) {
     res.json({"resp_code": "1", "resp_msg": "Null parameter(s)"});

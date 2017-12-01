@@ -15,6 +15,8 @@ module.exports = function(app) {
     .post(tapstreakController.userGetSalt);
   app.route("/api/user/login/")
     .post(tapstreakController.userLogin);
+  app.route("/api/user/reauth")
+    .post(tapstreakController.reauthenticate);
   app.route("/api/user/delete/")
     .post(tapstreakController.userDelete);
   app.route("/api/user/cpw/")
