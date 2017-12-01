@@ -96,7 +96,7 @@ exports.reauthenticate = function(req, res) {
     return;
   }
 
-  User.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function(err, user) {
+  Users.findOne({_id: req.body.user_id, access_token: req.body.access_token}, function(err, user) {
     if (err || user == null) {
       res.json({"resp_code": "2", "resp_msg": "User could not be found: " + err});
       return;
