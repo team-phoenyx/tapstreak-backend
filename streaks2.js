@@ -16,13 +16,13 @@ while (true) {
         for (var k = 0; k < friend.streaks.length; k++) {
           if (friend.streaks[k].user_id == thisUser.id) {
             friend.streaks.splice(k, 1);
-            friend.save();
+            db.users.save(friend);
             break;
           }
         }
         userStreaks.splice(j, 1);
         thisUser.streaks = userStreaks;
-        thisUser.save();
+        db.users.save(thisUser);
       }
     }
   }
