@@ -4,8 +4,8 @@
   "description": "Backend server for Tapstreak",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "poststart": "mongo localhost:27017/tapstreakDP streaks.js",
+    "start": "concurrently \"nodemon server.js\" \"mongo localhost:27017/tapstreakDP streaks.js\"",
+    "poststart": "",
     "stop": "pkill --signal SIGINT tapstreak-backend",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
