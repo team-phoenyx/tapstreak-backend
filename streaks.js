@@ -26,6 +26,14 @@ function iterate() {
     }
   }
 
-  setTimeout(iterate, 1000);
+  sleep(1000);
+  iterate();
+}
+
+function sleep(millis) {
+  var start = Date.now();
+  while (true) {
+    if (Date.now() - start > millis) break;
+  }
 }
 iterate();
