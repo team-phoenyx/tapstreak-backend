@@ -12,7 +12,7 @@ while (true) {
     for (var j = 0; j < userStreaks.length; j++) {
       if (Date.now() - userStreaks[j].last_streak > 30000) { //remove streak
         print("remove streak");
-        var friend = db.users.findOne({_id: userStreaks[j].user_id}).next();
+        var friend = db.users.findOne({"username": userStreaks[j].username});
         for (var k = 0; k < friend.streaks.length; k++) {
           if (friend.streaks[k].user_id == thisUser.id) {
             friend.streaks.splice(k, 1);
