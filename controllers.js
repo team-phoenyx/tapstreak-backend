@@ -373,29 +373,49 @@ exports.refreshStreak = function(req, res) {
           res.json({"resp_code": "2", "resp_msg": "Friend non-existent"});
           return;
         } else {
+          var updatedStreak = false;
           for (var i = 0; i < user.streaks.length; i++) {
-            if (user.streaks[i].user_id == req.body.friend_id) {
+            if (user.streaks[i].user_id == friend._id) {
               if (Date.now() - user.streaks[i].last_streak < 43200000) {
                 res.json({"resp_code": "100", "resp_msg": "Cannot refresh too early"});
                 return;
               }
               user.streaks[i].streak_length = user.streaks[i].streak_length + 1;
               user.streaks[i].last_streak = Date.now();
-              user.streaks[i].updatedAt.expires = null;
-              user.streaks[i].updatedAt = Date.now();
-              user.streaks[i].updatedAt.expires = '28h';
+              updatedStreak = true;
               break;
             }
           }
+
+          if (!updatedStreak) {
+            var newStreak = {
+              user_id: friend._id,
+              username: friend.username,
+              streak_length: 1,
+              last_streak: Date.now()
+            };
+            user.streaks.push(newStreak);
+          }
+
+          updatedStreak = false;
+
           for (var i = 0; i < friend.streaks.length; i++) {
-            if (friend.streaks[i].user_id == req.body.user_id) {
+            if (friend.streaks[i].user_id == user._id) {
               friend.streaks[i].streak_length = friend.streaks[i].streak_length + 1;
               friend.streaks[i].last_streak = Date.now();
-              friend.streaks[i].updatedAt.expires = null;
-              friend.streaks[i].updatedAt = Date.now();
-              friend.streaks[i].updatedAt.expires = '28h';
+              updatedStreak = true;
               break;
             }
+          }
+
+          if (!updatedStreak) {
+            var newStreak = {
+              user_id: user._id,
+              username: user.username,
+              streak_length: 1,
+              last_streak: Date.now()
+            };
+            friend.streaks.push(newStreak);
           }
 
           user.save(function (err, user) {
