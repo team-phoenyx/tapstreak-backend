@@ -128,8 +128,14 @@ exports.userDelete = function(req, res) {
       var friendID = friends[i].user_id;
       Users.findOne({_id: friendID}, function (err, friend) {
         if (!err && friend != null) {
-          friend.friends.splice({user_id: user._id}, 1);
-          friend.streaks.splice({user_id: user._id}, 1);
+          friend.friends = friend.friends.filter(function(el) {
+            return el.user_id !== user._id;
+          });
+          friend.streaks = friend.streaks.filter(function(el) {
+            return el.user_id !== user._id;
+          });
+          //friend.friends.splice({user_id: user._id}, 1);
+          //friend.streaks.splice({user_id: user._id}, 1);
           friend.save(function (err, friend) {});
         }
       });
@@ -255,14 +261,26 @@ exports.removeFriend = function(req, res) {
         if (err || friend == null) {
           return;
         } else {
-          friend.friends.splice({user_id: user._id}, 1);
-          friend.streaks.splice({user_id: user._id}, 1);
+          friend.friends = friend.friends.filter(function(el) {
+            return el.user_id !== user._id;
+          });
+          friend.streaks = friend.streaks.filter(function(el) {
+            return el.user_id !== user._id;
+          });
+          //friend.friends.splice({user_id: user._id}, 1);
+          //friend.streaks.splice({user_id: user._id}, 1);
           friend.save(function (err, friend) {});
         }
       });
-      
-      user.friends.splice({user_id: req.body.friend_id}, 1);
-      user.streaks.splice({user_id: req.body.friend_id}, 1);
+
+      user.friends = user.friends.filter(function(el) {
+        return el.user_id !== req.body.friend_id;
+      });
+      user.streaks = user.streaks.filter(function(el) {
+        return el.user_id !== req.body.friend_id;
+      });
+      //user.friends.splice({user_id: req.body.friend_id}, 1);
+      //user.streaks.splice({user_id: req.body.friend_id}, 1);
 
       user.save(function (err, user) {
         if (err) {
