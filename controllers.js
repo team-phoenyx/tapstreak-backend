@@ -296,8 +296,8 @@ exports.removeFriend = function(req, res) {
           break;
         }
       }
-      for (var i = 0; i < friend.streaks.length; i++) {
-        if (friend.streaks[i].user_id == user._id) {
+      for (var i = 0; i < user.streaks.length; i++) {
+        if (user.streaks[i].user_id == user._id) {
           console.log("removed friend from user's SL");
           user.streaks.splice(i, 1);
           break;
