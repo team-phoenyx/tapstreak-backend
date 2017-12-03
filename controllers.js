@@ -290,14 +290,14 @@ exports.removeFriend = function(req, res) {
       });
 
       for (var i = 0; i < user.friends.length; i++) {
-        if (user.friends[i].user_id == user._id) {
+        if (user.friends[i].user_id == req.body.friend_id) {
           console.log("removed friend from user's FL");
           user.friends.splice(i, 1);
           break;
         }
       }
       for (var i = 0; i < user.streaks.length; i++) {
-        if (user.streaks[i].user_id == user._id) {
+        if (user.streaks[i].user_id == req.body.friend_id) {
           console.log("removed friend from user's SL");
           user.streaks.splice(i, 1);
           break;
